@@ -22,62 +22,131 @@ https://chat.openai.com/c/4086099e-a2d7-44a7-9215-47eedcc1615e
  -->
 
 
- <!DOCTYPE html>
- <html lang="en">
-   <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Three.js AR Example</title>
-     <style>
-       body { margin: 0; overflow: hidden; }
-     </style>
-   </head>
+
+
+
+     
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js AR Example</title>
+    <style>
+      body { margin: 0; overflow: hidden; }
+    </style>
+  </head>
+
+  <body>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
+    <!-- <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/jsm/webxr/ARButton.js"></script> -->
+   
+    <script type="module">
+      // Three.module.js用
+      import * as THREE from 'https://cdn.skypack.dev/three@0.135.0/build/three.module.js';
+
+      // ARButton用
+      import { ARButton } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/webxr/ARButton.js';
+     
+      //  GLTFLoader用
+      import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/loaders/GLTFLoader.js';
+
+
+
+
+      let renderer, scene, camera, arButton;
+
+      function init() {
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.Camera();
+
+        arButton = new ARButton(renderer);
+
+        arButton.addEventListener('click', function () {
+          // ARセッション開始後の処理を記述
+          // 3Dモデルの読み込みや配置など
+          // ここにARセッション開始後のコードを記述してください
+        });
+
+        animate();
+      }
+
+      function animate() {
+        renderer.setAnimationLoop(render);
+      }
+
+      function render() {
+        camera.updateMatrixWorld();
+        renderer.render(scene, camera);
+      }
+
+      init();
+    </script>
+
+
+
+<!-- 
+    <div id="canvas-container"></div>
+
+    <script type="module">
+      // Three.jsモジュールのインポート
+      import * as THREE from 'https://cdn.skypack.dev/three@0.135.0/build/three.module.js';
+
+      // WebGLRendererインスタンスの作成
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+      // シーンの作成
+      const scene = new THREE.Scene();
+
+      // カメラの作成
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 5;
+
+      // ジオメトリとマテリアルの作成
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+      // メッシュの作成とシーンへの追加
+      const cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+
+      // アニメーションループの作成
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // モデルの回転
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        // シーンとカメラをレンダリング
+        renderer.render(scene, camera);
+      }
+
+      // アニメーションの開始
+      animate();
+
+      // レスポンシブ対応のリサイズ処理の追加
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      window.addEventListener('resize', onWindowResize);
+    </script> -->
+  </body>
+</html>
+
+
  
-   <body>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-     <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/jsm/webxr/ARButton.js"></script>
-    
-     <script>
-       let renderer, scene, camera, arButton;
- 
-       function init() {
-         renderer = new THREE.WebGLRenderer({ antialias: true });
-         renderer.setSize(window.innerWidth, window.innerHeight);
-         document.body.appendChild(renderer.domElement);
- 
-         scene = new THREE.Scene();
-         camera = new THREE.Camera();
- 
-         arButton = new THREE.ARButton(renderer, { sessionInit: { optionalFeatures: ['dom-overlay'], domOverlay: { root: document.body } } });
- 
-         arButton.addEventListener('click', function () {
-           const loader = new THREE.GLTFLoader();
-           const modelPath = './cube_small.glb';
- 
-           loader.load(modelPath, function (gltf) {
-             const modelScene = gltf.scene;
-             modelScene.scale.set(0.1, 0.1, 0.1);
-             modelScene.position.set(0, 0, -1);
-             scene.add(modelScene);
-           });
-         });
- 
-         animate();
-       }
- 
-       function animate() {
-         renderer.setAnimationLoop(render);
-       }
- 
-       function render() {
-         camera.updateMatrixWorld();
-         renderer.render(scene, camera);
-       }
- 
-       init();
-     </script>
-   </body>
- </html>
- 
+
 
 

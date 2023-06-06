@@ -1,15 +1,8 @@
 <!-- 
-・ARButton
+ARButton
+
 ARButtonを使用すると、デバイスがWebXRをサポートしているかどうかを確認し、サポートされている場合はARセッションを開始するためのボタンを簡単に作成することができます。
 サポートしていない場合は、ボタンにAR NOT AUPPORTED と表示される
-
-・hittest
-平面検知
-
-・3Dモデル
-3Dモデルを作成して描画
-
-
  -->
 
 
@@ -21,11 +14,6 @@ https://chat.openai.com/c/4086099e-a2d7-44a7-9215-47eedcc1615e
 
  -->
 
-
-
-
-
-     
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,10 +27,6 @@ https://chat.openai.com/c/4086099e-a2d7-44a7-9215-47eedcc1615e
   </head>
 
   <body>
-    <div id="canvas-container"></div>
-
-
-
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
     <!-- <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/jsm/webxr/ARButton.js"></script> -->
    
@@ -52,104 +36,29 @@ https://chat.openai.com/c/4086099e-a2d7-44a7-9215-47eedcc1615e
 
       // ARButton用
       import { ARButton } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/webxr/ARButton.js';
-     
-      //  GLTFLoader用
-      import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/loaders/GLTFLoader.js';
+
+      // ARButtonを使用したコードを記述する
 
 
-
-
-      let renderer, scene, camera, arButton;
-
-      function init() {
-        const container = document.getElementById('canvas-container');
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        container.appendChild(renderer.domElement);
-
-        scene = new THREE.Scene();
-
-        camera = new THREE.Camera();
-
-        arButton = new ARButton(renderer);
-
-        arButton.addEventListener('click', function () {
-          // ARセッション開始後の処理を記述
-          // 3Dモデルの読み込みや配置など
-          // ここにARセッション開始後のコードを記述してください
-        });
-
-        animate();
-      }
-
-      function animate() {
-        renderer.setAnimationLoop(render);
-      }
-
-      function render() {
-        camera.updateMatrixWorld();
-        renderer.render(scene, camera);
-      }
-
-      init();
-    </script>
-
-
-
-<!-- 
-    <div id="canvas-container"></div>
-
-    <script type="module">
-      // Three.jsモジュールのインポート
-      import * as THREE from 'https://cdn.skypack.dev/three@0.135.0/build/three.module.js';
-
-      // WebGLRendererインスタンスの作成
-      const renderer = new THREE.WebGLRenderer();
+      // WebGLRendererインスタンスを作成(antialias: true はオプション(エッジの滑らかさを有効))
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      // 描画領域のサイズ(幅と高さ)
+      // windowを付けることで、ウィンドウが変更された場合もThree.jsの描画が適切に調整される
       renderer.setSize(window.innerWidth, window.innerHeight);
-      document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-      // シーンの作成
-      const scene = new THREE.Scene();
-
-      // カメラの作成
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
-
-      // ジオメトリとマテリアルの作成
-      const geometry = new THREE.BoxGeometry(1, 1, 1);
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-      // メッシュの作成とシーンへの追加
-      const cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
-
-      // アニメーションループの作成
-      function animate() {
-        requestAnimationFrame(animate);
-
-        // モデルの回転
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-
-        // シーンとカメラをレンダリング
-        renderer.render(scene, camera);
-      }
-
-      // アニメーションの開始
-      animate();
-
-      // レスポンシブ対応のリサイズ処理の追加
-      function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      }
-
-      window.addEventListener('resize', onWindowResize);
-    </script> -->
+      // Three.jsの3DシーンをHTMLページ上に表示
+      // 親要素.appendChild(子要素(追加するもの));
+      // Three.jsの描画領域をHTMLドキュメントの<body>要素に追加し、描画内容を表示するための領域を提供する
+      // appendChild:指定された要素を親要素の子要素として追加する
+      // document.body:HTMLドキュメントの<body>要素
+      // renderer.domElement:Three.jsのWebGLRendererが生成した描画領域を表す
+      document.body.appendChild(renderer.domElement);
+      // ARButton(WebXRをサポートするデバイスでARセッションを開始するためのボタン)をHTMLページに表示
+      document.body.appendChild(ARButton.createButton(renderer));
+    </script>
   </body>
 </html>
-
+ 
+ 
 
  
 

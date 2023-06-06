@@ -1,4 +1,4 @@
-                                                               <!-- 
+<!-- 
 ・ARButton
 ARButtonを使用すると、デバイスがWebXRをサポートしているかどうかを確認し、サポートされている場合はARセッションを開始するためのボタンを簡単に作成することができます。
 サポートしていない場合は、ボタンにAR NOT AUPPORTED と表示される
@@ -8,9 +8,6 @@ ARButtonを使用すると、デバイスがWebXRをサポートしているか�
 
 ・3Dモデル
 3Dモデルを作成して描画
-
-
-3Dモデルを作成してブラウザ画面に回転させながら表示
 
 
  -->
@@ -28,112 +25,61 @@ https://chat.openai.com/c/4086099e-a2d7-44a7-9215-47eedcc1615e
 
 
 
-     
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js AR Example</title>
-    <style>
-      body { margin: 0; overflow: hidden; }
-    </style>
-  </head>
-
-  <body>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
-    <!-- <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/jsm/webxr/ARButton.js"></script> -->
-   
-    <script type="module">
-      // // Three.module.js用
-      // import * as THREE from 'https://cdn.skypack.dev/three@0.135.0/build/three.module.js';
-
-      // // ARButton用
-      // import { ARButton } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/webxr/ARButton.js';
-     
-      // //  GLTFLoader用
-      // import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/loaders/GLTFLoader.js';
-
-
-
-
-      // // ARButtonを使用したコードを記述する
-
-
-      // // WebGLRendererインスタンスを作成(antialias: true はオプション(エッジの滑らかさを有効))
-      // const renderer = new THREE.WebGLRenderer({ antialias: true });
-      // // 描画領域のサイズ(幅と高さ)
-      // // windowを付けることで、ウィンドウが変更された場合もThree.jsの描画が適切に調整される
-      // renderer.setSize(window.innerWidth, window.innerHeight);
-      // // Three.jsの3DシーンをHTMLページ上に表示
-      // // 親要素.appendChild(子要素(追加するもの));
-      // // Three.jsの描画領域をHTMLドキュメントの<body>要素に追加し、描画内容を表示するための領域を提供する
-      // // appendChild:指定された要素を親要素の子要素として追加する
-      // // document.body:HTMLドキュメントの<body>要素
-      // // renderer.domElement:Three.jsのWebGLRendererが生成した描画領域を表す
-      // document.body.appendChild(renderer.domElement);
-      // // ARButton(WebXRをサポートするデバイスでARセッションを開始するためのボタン)をHTMLページに表示
-      // document.body.appendChild(ARButton.createButton(renderer));
-    </script>
-
-
-
-    <div id="canvas-container"></div>
-
-    <script type="module">
-      // Three.jsモジュールのインポート
-      import * as THREE from 'https://cdn.skypack.dev/three@0.135.0/build/three.module.js';
-
-      // WebGLRendererインスタンスの作成
-      const renderer = new THREE.WebGLRenderer();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-      // シーンの作成
-      const scene = new THREE.Scene();
-
-      // カメラの作成
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
-
-      // ジオメトリとマテリアルの作成
-      const geometry = new THREE.BoxGeometry(1, 1, 1);
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-      // メッシュの作成とシーンへの追加
-      const cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
-
-      // アニメーションループの作成
-      function animate() {
-        requestAnimationFrame(animate);
-
-        // モデルの回転
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-
-        // シーンとカメラをレンダリング
-        renderer.render(scene, camera);
-      }
-
-      // アニメーションの開始
-      animate();
-
-      // レスポンシブ対応のリサイズ処理の追加
-      function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      }
-
-      window.addEventListener('resize', onWindowResize);
-    </script>
-  </body>
-</html>
-
-
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>AR Camera with 3D Model Example</title>
+   <style>
+     body {
+       margin: 0;
+       overflow: hidden;
+     }
+   </style>
+ </head>
+ <body>
+   <script type="module">
+     // Three.module.js用
+     import * as THREE from 'https://cdn.skypack.dev/three@0.135.0/build/three.module.js';
  
-
+     // ARButton用
+     import { ARButton } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/webxr/ARButton.js';
+ 
+     //  GLTFLoader用
+     import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/loaders/GLTFLoader.js';
+ 
+     // WebGLRendererインスタンスを作成(antialias: true はオプション(エッジの滑らかさを有効))
+     const renderer = new THREE.WebGLRenderer({ antialias: true });
+     renderer.setSize(window.innerWidth, window.innerHeight);
+     document.body.appendChild(renderer.domElement);
+ 
+     // ARButton(WebXRをサポートするデバイスでARセッションを開始するためのボタン)をHTMLページに表示
+     document.body.appendChild(ARButton.createButton(renderer));
+ 
+     // シーンの作成
+     const scene = new THREE.Scene();
+ 
+     // カメラの作成
+     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+     camera.position.z = 5;
+ 
+     // レンダリングループの作成
+     function animate() {
+       requestAnimationFrame(animate);
+       renderer.render(scene, camera);
+     }
+     animate();
+ 
+     // モデルの読み込み
+     const loader = new GLTFLoader();
+     loader.load('path/to/your/model.glb', (gltf) => {
+       const model = gltf.scene;
+       scene.add(model);
+     });
+   </script>
+ </body>
+ </html>
+ 
 
 

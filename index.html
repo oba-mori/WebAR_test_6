@@ -39,6 +39,10 @@ https://chat.openai.com/c/4086099e-a2d7-44a7-9215-47eedcc1615e
   </head>
 
   <body>
+    <div id="canvas-container"></div>
+
+
+
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
     <!-- <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/jsm/webxr/ARButton.js"></script> -->
    
@@ -58,9 +62,10 @@ https://chat.openai.com/c/4086099e-a2d7-44a7-9215-47eedcc1615e
       let renderer, scene, camera, arButton;
 
       function init() {
+        const container = document.getElementById('canvas-container');
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
 
         scene = new THREE.Scene();
 
